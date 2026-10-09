@@ -90,7 +90,7 @@ with st.sidebar:
     st.markdown("""
     - Fais des **phrases complètes**, pas un seul mot.
     - Commence chaque phrase par une **majuscule**, et écris **I** en majuscule.
-    - Réponds à *chaque question** avant de demander ton bilan.
+    - Réponds à **chaque question** avant de demander ton bilan.
     - Reste **professionnel** : parle de tes compétences et de ta motivation.
     """)
     st.caption("Bridgineers - CIM-ESUP")
