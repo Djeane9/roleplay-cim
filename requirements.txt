@@ -1,3 +1,5 @@
 streamlit
 google-genai
 groq
+gTTS
+edge-tts

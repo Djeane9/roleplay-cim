@@ -2,8 +2,12 @@ import streamlit as st
 from google import genai 
 from google.genai import types
 from groq import Groq 
+from gtts import gTTS
+import io
+import edge_tts
+import asyncio
 
-st.set_page_config(page_title="Role-play CIM-ESUP", page_icon="icon.png")
+st.set_page_config(page_title="Role-play CIM-ESUP", page_icon="icone.png")
 
 client = genai.Client()
 client_groq = Groq()
@@ -79,6 +83,21 @@ def evaluer(transcription):
     )
     return reponse_groq.choices[0].message.content
 
+@st.cache_data
+def parler(texte):
+    try:
+        async def generer():
+            audio = b""
+            voix = edge_tts.Communicate(texte, "en-GB-RyanNeural")
+            async for morceau in voix.stream():
+                if morceau["type"] == "audio":
+                    audio = audio + morceau["data"]
+            return audio
+        return asyncio.run(generer())
+    except Exception:
+        fichier = io.BytesIO()
+        gTTS(text=texte, lang="en").write_to_fp(fichier)
+        return fichier.getvalue()
 
 st.image("logo.png", width=300)
 st.title("Role-play : entretien d'embauche")
@@ -110,6 +129,11 @@ for message in st.session_state["historique"]:
         avatar = "⛏️"
     with st.chat_message(message["role"], avatar=avatar):
         st.markdown(message["content"])
+        if message["role"] == "assistant":
+            try: 
+                st.audio(parler(message["content"]), format="audio/mp3")
+            except Exception:
+                pass
 
 # nouveau : tant que le bilan n'existe pas, l'entretien continue
 if st.session_state["bilan"] is None:
@@ -125,6 +149,10 @@ if st.session_state["bilan"] is None:
                     texte = repondre(st.session_state["historique"])
                     st.markdown(texte)
                     st.session_state["historique"].append({"role": "assistant", "content": texte})
+                    try: 
+                        st.audio(parler(texte), format="audio/mp3", autoplay=True)
+                    except Exception:
+                        pass
                 except Exception as e:
                     st.error("Le personnage ne répond pas. Réessaie dans une minute.")
                     st.caption(f"Détail technique : {e}")
