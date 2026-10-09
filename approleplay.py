@@ -121,6 +121,9 @@ if "historique" not in st.session_state:
 if "bilan" not in st.session_state:
     st.session_state["bilan"] = None
 
+if "num_micro" not in st.session_state:
+    st.session_state["num_micro"] = 0
+
 # nouveau : les avatars 
 for message in st.session_state["historique"]:
     if message["role"] == "assistant":
@@ -138,6 +141,19 @@ for message in st.session_state["historique"]:
 # nouveau : tant que le bilan n'existe pas, l'entretien continue
 if st.session_state["bilan"] is None:
     reponse_membre = st.chat_input("Écris ta réponse en anglais...")
+    audio = st.audio_input("Réponds à voix haute", key=f"micro_{st.session_state['num_micro']}")
+    if audio:
+        try:
+            resultat = client_groq.audio.transcriptions.create(
+                file=("reponse.wav", audio.getvalue()),
+                model="whisper-large-v3-turbo",
+                language="en"
+            )
+            reponse_membre = resultat.text
+            st.session_state["num_micro"] = st.session_state["num_micro"] + 1
+        except Exception as e : 
+            st.error("Je n'ai pas compris ton enregistrement. Réessaie, ou écris ta réponse.")
+            st.caption(f"Détail technique : {e}")
 
     if reponse_membre:
         st.session_state["historique"].append({"role": "user", "content": reponse_membre})
