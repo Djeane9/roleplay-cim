@@ -187,7 +187,7 @@ else:
     if "refusé" in bilan.lower():
         st.error("Mr. Ozias ne t'a pas retenu cette fois. Lis ton bilan et retente ta chance !")
     elif "accepté" in bilan.lower():
-        st.success("Félicitatiions, tu es embauché !")
+        st.success("Félicitations, tu es embauché !")
         st.balloons()
     st.subheader("Ton bilan d'entretien")
     st.markdown(bilan)
