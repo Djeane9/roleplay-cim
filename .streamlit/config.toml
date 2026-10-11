@@ -1,6 +1,10 @@
 [theme]
 base = "light"
 primaryColor = "#1652C9"
-backgroundColor = "#FFFFFF"
-secondaryBackgroundColor = "#EEF2FA"
-textColor = "#0E1B33"
+backgroundColor = "#F7F8FB"
+secondaryBackgroundColor = "#FFFFFF"
+textColor = "#0A2A6B"
+font = "sans serif"
+
+[client]
+toolbarMode = "minimal"
