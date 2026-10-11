@@ -219,10 +219,11 @@ afficher_html(f"""
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@700&display=swap');
 html, body, .stMarkdown, button, input, textarea {{font-family: 'Inter', sans-serif;}}
 [data-testid="stSidebar"], [data-testid="stSidebarCollapsedControl"], footer {{display: none;}}
-.block-container {{padding-top: 1.5rem; padding-bottom: 3rem; max-width: 560px;}}
+[data-testid="stHeader"] {{display: none;}}
+.block-container, [data-testid="stMainBlockContainer"] {{padding-top: 2rem !important; padding-bottom: 3rem; max-width: 560px;}}
 .entete {{display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px;}}
 .marque {{display: flex; align-items: center; gap: 10px;}}
-.marque img {{width: 42px; height: 42px; border-radius: 10px; background: #fff; border: 1px solid {BORDURE};}}
+.marque img {{width: 46px; height: 46px; flex-shrink: 0; object-fit: contain; border-radius: 10px; background: #fff; border: 1px solid {BORDURE};}}
 .t1 {{margin: 0; font-family: 'Montserrat', sans-serif; font-weight: 700; font-size: 16px; color: {MARINE}; line-height: 1.2;}}
 .t2 {{margin: 0; font-size: 12px; color: {GRIS}; line-height: 1.3;}}
 .pastille {{font-size: 12px; background: #E3EBFA; color: {MARINE}; padding: 4px 10px; border-radius: 999px; white-space: nowrap;}}
